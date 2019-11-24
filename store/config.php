@@ -1,5 +1,4 @@
 <?php
-//test for GITHUB
 $driver = 'mysql';
 $host = 'localhost';
 $db_name = 'marlin';
