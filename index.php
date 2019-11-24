@@ -2,7 +2,7 @@
 session_start();
 require_once "store/information.php";
 ?>
-fffffffffffffffffgigigigigigiig
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
