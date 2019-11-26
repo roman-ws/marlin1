@@ -2,6 +2,7 @@
 session_start();
 require_once "store/information.php";
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
