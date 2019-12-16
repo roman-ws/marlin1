@@ -2,7 +2,6 @@
 session_start();
 require_once "config.php";
 
-
 $user_name = $_POST['name'] ;
 $user_email = $_POST['email'] ;
 $user_password = $_POST['password'] ;
@@ -17,20 +16,35 @@ if($user_password === $user_confirm_password)
 else $user_password_validated = false;
 
 // настроим валидацию:
-// проверим на корректность записи
+// проверим не дублируется ли email:
+    $sql = "SELECT email FROM users WHERE email = '$user_email'";
+ //var_dump($sql);
+    $statement = $pdo->prepare($sql);
+    $statement->execute();
+    $db_has_email = $statement->fetchAll(PDO::FETCH_ASSOC);
+ //var_dump(!empty($db_has_email));
+
+// проверим на корректность записи email
 $user_email_validated = filter_var($user_email, FILTER_VALIDATE_EMAIL);
-if($user_email_validated != false)
+//var_dump($user_email_validated);
+
+
+if (!empty($db_has_email))
 {
-    $user_email_validated = $user_email;
+    $_SESSION['email_is_not_validated'] = 'Введённый email уже существует в базе данных!';
+    header('Location: /register.php');
+    exit();
 }
-else
+else if($user_email_validated == false)
 {
     $_SESSION['email_is_not_validated'] = 'Введённый email некорректен!';
     header('Location: /register.php');
     exit();
 }
-
-
+else
+{
+    $user_email_validated = $user_email;
+}
 
 
 if ($user_password === $user_confirm_password)
