@@ -1,10 +1,11 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Comments</title>
+    <title>MarlinProgect</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -37,7 +38,7 @@
                                 <a class="nav-link" href="login.php">Login</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="register.html">Register</a>
+                                <a class="nav-link" href="register.php">Register</a>
                             </li>
                     </ul>
                 </div>
@@ -59,9 +60,15 @@
 
                                         <div class="col-md-6">
                                             <input id="email" type="email" class="form-control is-invalid " name="email"  autocomplete="email" autofocus >
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>Ошибка валидации</strong>
+                                            <?php
+                                            if($_SESSION['pass_is_absent'])
+                                            {?>
+                                                <span style="color: red">
+                                                    <strong><?php echo $_SESSION['pass_is_absent'];?></strong>
                                                 </span>
+                                            <?php
+                                                session_destroy();}
+                                            ?>
                                         </div>
                                     </div>
 
@@ -70,6 +77,16 @@
 
                                         <div class="col-md-6">
                                             <input id="password" type="password" class="form-control" name="password"  autocomplete="current-password">
+                                            <?php
+                                            if($_SESSION['user_name'])
+                                            {?>
+                                                <span>
+                                                    <strong>Добро пожаловать <?php echo $_SESSION['user_name']."!";?></strong>
+                                                </span>
+                                                <?php
+                                                session_destroy();}
+                                            ?>
+                                        </div>
                                         </div>
                                     </div>
 
