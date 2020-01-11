@@ -1,5 +1,7 @@
 <?php
 session_start();
+require_once "store/config.php";
+require_once "store/models.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,9 +19,7 @@ session_start();
     <link href="css/app.css" rel="stylesheet">
 </head>
 <body>
-<?php echo $_SESSION['isGoodPass'];
-?>
-
+<?php //var_dump($_SESSION['user_name']) ?>
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
@@ -46,16 +46,29 @@ session_start();
                         <li class="nav-item">
                             <a class="nav-link" href="login.php"><?php echo $_SESSION['user_name']."!";?></a>
                         </li>
-                        <?php
-                    } else{
+                   <?php
+                    }
+                    elseif($_COOKIE['email']&&$_COOKIE['password'])
+                    {
+                        ifGetCookies ($pdo,$_COOKIE['email'],$_COOKIE['password']);// actions if we have cookies
                         ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="login.php">Login</a>
+                            <a class="nav-link" href="login.php"><?php echo "Куки утрановлены" . $_SESSION['user_name']."!";?></a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="register.php">Register</a>
-                        </li>
-                    <?php }?>
+                    <?php
+                    }
+                    else
+                    {
+                        echo "Возможно требуется регистрация"
+                        ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.php">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="register.php">Register</a>
+                    </li>
+                    <?php
+                    }?>
                 </ul>
             </div>
         </div>
@@ -119,34 +132,29 @@ session_start();
                                                 </span>
                                             <?php
                                         }
-
-
                                         ?>
-
                                     </div>
                                 </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" >
-
-                                    <label class="form-check-label" for="remember">
-                                        Remember Me
-                                    </label>
+                                <div class="form-group row">
+                                    <div class="col-md-6 offset-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="remember" id="remember" value="1">
+                                            <label class="form-check-label" for="remember">
+                                                Remember Me
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Login
-                                </button>
-                            </div>
-                        </div>
+                                <div class="form-group row mb-0">
+                                    <div class="col-md-8 offset-md-4">
+                                        <button type="submit" class="btn btn-primary">
+                                            Login
+                                        </button>
+                                    </div>
+                                </div>
                         </form>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -4,6 +4,7 @@ require_once "config.php";
 
 $email = $_POST['email'];
 $password = $_POST['password'];
+$rememberMe = $_POST['remember'];
 
 //проверим на корректность записи email
 function emailValidate($email,$password){
@@ -52,6 +53,23 @@ if(isset($isGoodEmail)&&!empty($isGoodPass))
     $_SESSION['user_id'] = $idFromDb;
     $_SESSION['user_name'] = $nameFromDb;
     $_SESSION['user_email'] = $emailFromDb;
+
+    if($rememberMe == 1)
+    {
+        //set cookies
+        setcookie(password,$passwordFromDb,time()+2592000,"/");
+        setcookie(email,$emailFromDb, time()+2592000,"/");
+        setcookie(email,$emailFromDb, time()+2592000,"/");
+
+//        $_COOKIE['password'] = $passwordFromDb;
+//        $_COOKIE['email'] = $emailFromDb;
+    }
+    else
+    {
+        setcookie('password', '', -1,"/");
+        setcookie('email', '',-1,"/");
+
+    }
     header('Location: /login.php');
     exit();
 
@@ -64,3 +82,5 @@ else
     header('Location: /login.php');
     exit();
 }
+
+
