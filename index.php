@@ -37,12 +37,19 @@ require_once "store/information.php";
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
                     <!-- Authentication Links -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="login.php">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="register.php">Register</a>
-                    </li>
+                    <?php if(empty($_SESSION['user_id']))
+                    {?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="login.php">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="register.php">Register</a>
+                        </li>
+                    <?php } else {?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="login.php"><?php echo $_SESSION['user_name']; ?></a>
+                        </li>
+                    <?php }?>
                 </ul>
             </div>
         </div>
@@ -59,10 +66,11 @@ require_once "store/information.php";
                             <?php if($_SESSION['message'])
                             { ?>
                             <div class="alert alert-success" role="alert">
-                                <!--                               добавление комментария-->
-                                <?php echo $_SESSION['message'];?>
+                                <!-- добавление комментария-->
+                                <?php echo $_SESSION['message'];
+                                $_SESSION['message'] = '';?>
                                 <?php
-                                session_destroy();
+                                //session_destroy();
                                 }  ?>
                             </div>
 
@@ -129,26 +137,6 @@ require_once "store/information.php";
                     <div class="card-body">
                         <form action="store/comments.php" method="post">
                             <div class="form-group">
-                                <label for="exampleFormControlTextarea1">Имя</label>
-                                <input name="name" class="form-control" id="exampleFormControlTextarea1" />
-
-                                <?php if($_SESSION['empty_name'])
-                                { ?>
-                                <div class="alert alert-warning" role="alert">
-                                    <!-- предупреждение об пустом значении name-->
-                                    <p style="color: red">
-                                        <?php echo $_SESSION['empty_name'];?>
-                                    </p>
-                                    <?php } ?>
-                                </div>
-                                <?php
-                                if (isset($_SESSION['empty_name']))
-                                {
-                                    session_destroy();
-                                }; ?>
-
-                            </div>
-                            <div class="form-group">
                                 <label for="exampleFormControlTextarea1">Сообщение</label>
                                 <textarea name="text" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
 
@@ -163,10 +151,7 @@ require_once "store/information.php";
                                 </div>
                             </div>
                             <?php
-                            if (isset($_SESSION['empty_name']))
-                            {
-                            }
-                            else if (isset($_SESSION['empty_text']))
+                            if (isset($_SESSION['empty_text']))
                             {
                                 session_destroy();
                             }

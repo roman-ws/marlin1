@@ -62,10 +62,6 @@ session_start();
 
                                     <div class="col-md-6">
                                         <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" autofocus>
-
-                                        <span class="invalid-feedback" role="alert">
-                                                    <strong>Ошибка валидации</strong>
-                                                </span>
                                     </div>
                                 </div>
 

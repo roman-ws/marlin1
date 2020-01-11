@@ -2,9 +2,11 @@
 require_once "config.php";
 session_start();
 
-$user_name = $_POST['name'];
+$user_name = $_SESSION['user_name'];
 $comment = $_POST['text'];
 $img_src = 'img/no-user.jpg';
+
+//echo $user_name;
 
 //switch (empty($post_var))
 //{
@@ -37,16 +39,9 @@ $img_src = 'img/no-user.jpg';
 
 
 // настроим валидацию
-if (empty($user_name) && (empty($comment)))
-    {
-    $_SESSION['empty_name'] = 'Введите имя!';
-    $_SESSION['empty_text'] = 'Введите сообщение!';
-    header('Location: /index.php');
-    exit();
-}
-else if(empty($user_name))
+if (empty($comment))
 {
-    $_SESSION['empty_name'] = 'Введите имя!';
+    $_SESSION['empty_text'] = 'Введите сообщение!';
     header('Location: /index.php');
     exit();
 }
@@ -66,6 +61,8 @@ else
     if($statement->execute())
     {
         $_SESSION['message'] = 'Комментарий успешно добавлен';
+        $_SESSION['user_name'] = $user_name;
+
     }
     header('Location: /index.php');
 }
